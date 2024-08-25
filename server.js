@@ -9,6 +9,8 @@ const dbconfig = require("./config/db.config");
 // Importing models
 const { UserModel } = require("./models/user.model");
 
+app.use(express.json());
+
 // Connecting our app to MongoDB database
 const main = async () => {
   try {
@@ -17,8 +19,8 @@ const main = async () => {
 
     await init(); // Wait for init to complete
 
-    await mongoose.disconnect(); // Disconnect after init completes
-    console.log("Connection disconnected");
+    // await mongoose.disconnect();
+    // console.log("Connection disconnected");
   } catch (e) {
     console.log("Error connected to database", e);
   }
@@ -51,6 +53,10 @@ const init = async () => {
 };
 
 main();
+
+// Stitch the user-route to the server
+
+require("./routes/auth.routes")(app);
 
 // Start our server
 app.listen(serverConfig.PORT, () => {
