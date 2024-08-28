@@ -28,7 +28,7 @@ const verifySignup = async (req, res, next) => {
         message: "Failed ! User with the same userID already exits!",
       });
     }
-    // Check if name is already present then allow your user
+    // Check if name is already present then don't allow this user
     let userName = await UserModel.findOne({ name: req.body.name });
     if (userName) {
       return res.status(400).send({
@@ -53,4 +53,18 @@ const verifySignup = async (req, res, next) => {
   }
 };
 
-module.exports = { verifySignup };
+const verifySignin = (req, res, next) => {
+  if (!req.body.userId) {
+    return res.status(400).send({
+      message: "Please provide your userID",
+    });
+  }
+  if (!req.body.password) {
+    return res.status(400).send({
+      message: "Please provide your password",
+    });
+  }
+  next();
+};
+
+module.exports = { verifySignup, verifySignin };
