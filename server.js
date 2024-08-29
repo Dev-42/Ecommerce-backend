@@ -57,6 +57,7 @@ main();
 // Stitch the user-route to the server
 
 require("./routes/auth.routes")(app);
+require("./routes/category.routes")(app);
 
 // Start our server
 app.listen(serverConfig.PORT, () => {

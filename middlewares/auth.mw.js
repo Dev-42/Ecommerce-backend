@@ -1,5 +1,7 @@
 // let's define a middleware which will check the request body is correct or not
 const { UserModel } = require("../models/user.model");
+const jwt = require("jsonwebtoken");
+const authConfig = require("../config/auth.config");
 
 const verifySignup = async (req, res, next) => {
   try {
@@ -67,4 +69,29 @@ const verifySignin = (req, res, next) => {
   next();
 };
 
-module.exports = { verifySignup, verifySignin };
+const verifyToken = async (req, res, next) => {
+  // Check if the token is present in the header or not
+  let token = req.headers["x-access-token"];
+  if (!token) {
+    return res.status(403).send({
+      message: "No token found! You are unauthorised to veiw this.",
+    });
+  }
+  // Check the validity of the token
+  jwt.verify(token, authConfig.secret, async (err, decoded) => {
+    if (err) {
+      return res.status(403).send({
+        message: "Unauthorised!",
+      });
+    }
+    const user = await UserModel.findOne({ userId: decoded.userId });
+    if (!user) {
+      return res.status(400).send({
+        message: "Unauthorised ! The token for this user doenst exist",
+      });
+    }
+    next();
+  });
+};
+
+module.exports = { verifySignup, verifySignin, verifyToken };
