@@ -1,10 +1,10 @@
 const categoryController = require("../controllers/category.controller");
-const { verifyToken } = require("../middlewares/auth.mw");
+const { verifyToken, isAdmin } = require("../middlewares/auth.mw");
 
 module.exports = (app) => {
   app.post(
     "/ecomm/api/v1/categories",
-    verifyToken,
+    [verifyToken, isAdmin],
     categoryController.createNewCategory
   );
 };

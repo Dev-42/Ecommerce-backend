@@ -90,8 +90,19 @@ const verifyToken = async (req, res, next) => {
         message: "Unauthorised ! The token for this user doenst exist",
       });
     }
+    // Let's user our user fetched from the database from the next middleware
+    req.user = user;
     next();
   });
 };
 
-module.exports = { verifySignup, verifySignin, verifyToken };
+const isAdmin = (req, res, next) => {
+  if (req.user.userType !== "ADMIN") {
+    return res.status(403).send({
+      message: "Only Admin users are authorised to veiw this page!",
+    });
+  }
+  next();
+};
+
+module.exports = { verifySignup, verifySignin, verifyToken, isAdmin };
