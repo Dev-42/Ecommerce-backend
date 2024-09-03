@@ -1,6 +1,8 @@
 // Creating a new category
 const { CategoryModel } = require("../models/category.model");
+const { ItemModel } = require("../models/items.model");
 
+// Controller to create a new category
 exports.createNewCategory = async (req, res) => {
   // Read the req.body
   const { name, description } = req.body;
@@ -25,7 +27,7 @@ exports.createNewCategory = async (req, res) => {
   // return the response to the user that category os succesfully created
 };
 
-// Read the category from the user
+// Controller to read all categories
 exports.readCategories = async (req, res) => {
   try {
     // read all the categories
@@ -38,7 +40,7 @@ exports.readCategories = async (req, res) => {
     });
   }
 };
-// Read a single category by ID
+// Controller to read all items by category name
 exports.readCategoryById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -53,7 +55,7 @@ exports.readCategoryById = async (req, res) => {
   }
 };
 
-// Update a category by ID
+// Controller to update a category
 exports.updateCategory = async (req, res) => {
   try {
     const { id } = req.params;
@@ -81,7 +83,7 @@ exports.updateCategory = async (req, res) => {
   }
 };
 
-// Delete a category by ID
+// Controller to delete a category
 exports.deleteCategory = async (req, res) => {
   try {
     const { id } = req.params;
@@ -99,6 +101,31 @@ exports.deleteCategory = async (req, res) => {
     console.log("Error while deleting the category", e);
     res.status(500).send({
       message: "Error while deleting the category",
+    });
+  }
+};
+
+// Read items by category name
+exports.readItemsByCategoryName = async (req, res) => {
+  try {
+    const categoryName = req.params.name;
+
+    // Fetch the category by name
+    const category = await CategoryModel.findOne({
+      name: categoryName,
+    }).populate("items");
+    if (!category) {
+      return res.status(404).send({
+        message: "Category not found",
+      });
+    }
+    // Fetch all the items belonging to this category
+    const items = await ItemModel.find({ category: category._id });
+    res.status(200).json(items);
+  } catch (e) {
+    console.log("Error in fetching items by category name", e);
+    res.status(500).send({
+      message: "Error while fetching items",
     });
   }
 };

@@ -8,6 +8,8 @@ const dbconfig = require("./config/db.config");
 
 // Importing models
 const { UserModel } = require("./models/user.model");
+const { CategoryModel } = require("./models/category.model");
+const { ItemModel } = require("./models/items.model");
 
 app.use(express.json());
 
@@ -58,6 +60,8 @@ main();
 
 require("./routes/auth.routes")(app);
 require("./routes/category.routes")(app);
+// The addition of this line is causing error
+require("./routes/item.routes")(app);
 
 // Start our server
 app.listen(serverConfig.PORT, () => {
