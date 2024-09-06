@@ -60,7 +60,7 @@ main();
 
 require("./routes/auth.routes")(app);
 require("./routes/category.routes")(app);
-// The addition of this line is causing error
+//This marks the succesfull stiching of the item routes to the app
 require("./routes/item.routes")(app);
 
 // Start our server
