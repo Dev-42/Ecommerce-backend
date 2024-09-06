@@ -190,4 +190,106 @@ Status Code: 404 (Not Found) with a descriptive error message.
 Error Handling
 The API returns appropriate HTTP status codes and descriptive error messages for various scenarios.
 
+## E-commerce API Documentation
+
+### Items API
+
+This API provides endpoints for managing items within categories in an e-commerce application.
+
+### Authentication and Authorization
+
+All requests to the Items API require a valid JWT token for authentication. Additionally, certain endpoints are restricted to Admin users only. These restrictions are enforced using middleware functions.
+
+### Endpoints
+
+#### 1. Create a New Item (Admin Only)
+
+**Endpoint:** `/ecomm/api/v1/items`
+
+**Method:** POST
+
+**Authorization:** Required (JWT token with Admin privileges)
+
+**Request Body:**
+
+| Parameter | Description | Data Type | Required |
+|---|---|---|---|
+| name | Name of the item | String | Yes |
+| price | Price of the item | Number | Yes |
+| description | Description of the item | String | Yes |
+| categoryName | Name of the category the item belongs to | String | Yes |
+
+**Response:**
+
+* On success:
+    * Status Code: 201 (Created)
+    * Response Body: The newly created item object.
+* On error:
+    * Status Code: 400 (Bad Request) with a descriptive error message. (e.g., missing required fields)
+    * Status Code: 404 (Not Found) with a descriptive error message. (e.g., category not found)
+    * Status Code: 500 (Internal Server Error) with a descriptive error message. (e.g., database error)
+
+#### 2. Update an Item (Admin Only)
+
+**Endpoint:** `/ecomm/api/v1/items/:itemId`
+
+**Method:** PUT
+
+**Authorization:** Required (JWT token with Admin privileges)
+
+**Path Parameter:**
+
+* `itemId`: Unique identifier of the item
+
+**Request Body:**
+
+(Optional) Can include any or all of the following properties to update:
+
+* `name`: Updated name of the item
+* `price`: Updated price of the item
+* `description`: Updated description of the item
+* `categoryName`: Name of the new category the item belongs to (updates category association)
+
+**Response:**
+
+* On success:
+    * Status Code: 200 (OK)
+    * Response Body: The updated item object.
+* On error:
+    * Status Code: 400 (Bad Request) with a descriptive error message. (e.g., missing required fields)
+    * Status Code: 404 (Not Found) with a descriptive error message. (e.g., item or category not found)
+    * Status Code: 500 (Internal Server Error) with a descriptive error message. (e.g., database error)
+
+#### 3. Delete an Item (Admin Only)
+
+**Endpoint:** `/ecomm/api/v1/items/:itemId`
+
+**Method:** DELETE
+
+**Authorization:** Required (JWT token with Admin privileges)
+
+**Path Parameter:**
+
+* `itemId`: Unique identifier of the item
+
+**Response:**
+
+* On success:
+    * Status Code: 200 (OK)
+    * Response Body: A success message: "Item deleted successfully"
+* On error:
+    * Status Code: 404 (Not Found) with a descriptive error message. (e.g., item not found)
+    * Status Code: 500 (Internal Server Error) with a descriptive error message. (e.g., database error)
+
+### Error Handling
+
+The API returns appropriate HTTP status codes and descriptive error messages for various scenarios. Refer to the Response section of each endpoint for specific error messages.
+
+### Additional Notes
+
+* All requests are expected in JSON format.
+* The `categoryName` field is used to associate the item with a category by referencing its name. The category itself is not created or updated through this API.
+* You can implement additional functionalities for items based on your application's needs, such as retrieving all items within a category or filtering items by specific criteria.
+
 **[Include any other relevant information, such as usage examples, rate limiting, versioning, and contact information]**
+
