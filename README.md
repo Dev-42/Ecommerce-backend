@@ -90,7 +90,7 @@ The Auth API returns appropriate HTTP status codes and descriptive error message
 * The password is hashed before storing it in the database for security reasons.
 
 
-Categories API
+##Categories API
 Introduction
 This API provides endpoints for managing categories in an e-commerce application.
 
