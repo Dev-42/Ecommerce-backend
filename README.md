@@ -89,6 +89,105 @@ The Auth API returns appropriate HTTP status codes and descriptive error message
 * All requests to the Auth API are expected in JSON format.
 * The password is hashed before storing it in the database for security reasons.
 
-**[Add documentation for Categories API and Items API here]**
+
+Categories API
+Introduction
+This API provides endpoints for managing categories in an e-commerce application.
+
+Endpoints
+1. Create a New Category (Admin Only)
+Endpoint: /ecomm/api/v1/categories
+
+Method: POST
+
+Authorization: Required (JWT token with Admin privileges)
+
+Request Body:
+
+Parameter	Description	Data Type	Required
+name	Name of the category	String	Yes
+description	Description of the category	String	Yes
+
+Export to Sheets
+Response:
+
+On success:
+Status Code: 201 (Created)
+Response Body: The newly created category object.
+On error:
+Status Code: 400 (Bad Request) with a descriptive error message.
+2. Get All Categories
+Endpoint: /ecomm/api/v1/categories
+
+Method: GET
+
+Authorization: Not required
+
+Response:
+
+On success:
+Status Code: 200 (OK)
+Response Body: An array of category objects.
+On error:
+Status Code: 500 (Internal Server Error) with a descriptive error message.
+3. Get a Category by ID
+Endpoint: /ecomm/api/v1/categories/:id
+
+Method: GET
+
+Authorization: Not required
+
+Path Parameter:
+
+id: Unique identifier of the category
+Response:
+
+On success:
+Status Code: 200 (OK)
+Response Body: The category object with the specified ID.
+On error:
+Status Code: 404 (Not Found) with a descriptive error message.
+4. Update a Category (Admin Only)
+Endpoint: /ecomm/api/v1/categories/:id
+
+Method: PUT
+
+Authorization: Required (JWT token with Admin privileges)
+
+Path Parameter:
+
+id: Unique identifier of the category
+Request Body:
+
+Can include any or all of the following properties:
+name: Updated category name
+description: Updated category description
+Response:
+
+On success:
+Status Code: 200 (OK)
+Response Body: The updated category object.
+On error:
+Status Code: 400 (Bad Request) with a descriptive error message.
+Status Code: 404 (Not Found)
+5. Delete a Category (Admin Only)
+Endpoint: /ecomm/api/v1/categories/:id
+
+Method: DELETE
+
+Authorization: Required (JWT token with Admin privileges)
+
+Path Parameter:
+
+id: Unique identifier of the category
+Response:
+
+On success:
+Status Code: 200 (OK)
+Response Body: A success message.
+On error:
+Status Code: 404 (Not Found) with a descriptive error message.
+Error Handling
+The API returns appropriate HTTP status codes and descriptive error messages for various scenarios.
 
 **[Include any other relevant information, such as usage examples, rate limiting, versioning, and contact information]**
